@@ -20,12 +20,6 @@ export class ProfileService {
   private client = createClient(PbProfileService, this.connectTransport);
 
   async getSummoner(puuid: string): Promise<Summoner> {
-    const resp = await this.client.getProfile({
-      region: '',
-      name: '',
-      tag: '',
-    });
-
     return {
       level: 0,
       name: '',
@@ -44,13 +38,6 @@ export class ProfileService {
       nextPageToken: resp.nextPageToken,
       matchHistory: [],
     };
-
-    for (const match of resp.matches) {
-      result.matchHistory.push({
-        assists: match.assists,
-        date: match.date,
-      });
-    }
 
     return result;
   }
