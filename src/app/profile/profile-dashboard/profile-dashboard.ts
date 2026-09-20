@@ -1,9 +1,7 @@
-import { ChangeDetectionStrategy, Component, computed, effect, inject, signal } from '@angular/core';
-import { ActivatedRoute, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
-import { Summoner } from '@/profile/summoner';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { NgOptimizedImage } from '@angular/common';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { map, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { ZardButtonComponent } from '@/shared/components/button';
 import { ZardSonnerService } from '@/shared/components/sonner';
 import { provideIcons } from '@ng-icons/core';
