@@ -1,10 +1,57 @@
+<ng-template #what>
+  <z-command #cmd="zCommand" (zCommandSelected)="navigateToProfile($event)">
+    <z-command-input placeholder="Type a command or search..." (valueChange)="searchQuery.set($event)" />
+    <z-command-list>
+      @if (searchResultsResource.isLoading()) {
+        <div class="flex items-center space-x-4">
+          <z-skeleton class="size-12 rounded-full" />
+          <div class="space-y-2">
+            <z-skeleton class="h-4 w-[250px]" />
+            <z-skeleton class="h-4 w-[200px]" />
+          </div>
+        </div>
+      } @else if (cmd.isEmpty()) {
+        <div class="py-6 text-center text-sm">No results found.</div>
+      } @else {
+        <z-command-option-group zLabel="Summoners">
+          @for (summoner of searchResultsResource.value(); track summoner) {
+            <z-command-option [zLabel]="summoner" [zValue]="summoner" />
+          }
+        </z-command-option-group>
+      }
+    </z-command-list>
+  </z-command>
+</ng-template>
+
+<z-dropdown-menu-content #menu="zDropdownMenuContent">
+  <z-dropdown-menu-item (click)="darkMode.toggleTheme(EDarkModes.SYSTEM)"
+                        [disabled]="darkMode.currentTheme() === EDarkModes.SYSTEM">
+    <ng-icon name="lucideEclipse" class="mr-2 size-4" />
+    System
+  </z-dropdown-menu-item>
+  <z-dropdown-menu-item (click)="darkMode.toggleTheme(EDarkModes.LIGHT)"
+                        [disabled]="darkMode.currentTheme() === EDarkModes.LIGHT">
+    <ng-icon name="lucideSun" class="mr-2 size-4" />
+    Light
+  </z-dropdown-menu-item>
+  <z-dropdown-menu-item (click)="darkMode.toggleTheme(EDarkModes.DARK)"
+                        [disabled]="darkMode.currentTheme() === EDarkModes.DARK">
+    <ng-icon name="lucideMoon" class="mr-2 size-4" />
+    Dark
+  </z-dropdown-menu-item>
+</z-dropdown-menu-content>
+
 <nav>
   <div class="flex items-center justify-between p-6">
-    <a routerLink="/">Home</a>
     <div class="flex items-center gap-4">
+      <a routerLink="/">Home</a>
     </div>
     <div class="flex items-center">
-      <button type="button" z-button zType="outline" (click)="open()">Open Menu</button>
+      <button type="button" z-button zType="outline" (click)="open()">
+        <ng-icon name="lucideSearch" />
+        Search
+      </button>
+      <button type="button" z-button zType="outline" z-dropdown [zDropdownMenu]="menu">Open menu</button>
     </div>
   </div>
 </nav>
