@@ -7,3 +7,11 @@
     <p>Has value</p>
   }
 </div>
+
+@if (isLoading()) {
+  <p>Loading</p>
+} @if (matchHistoryStore.matchHistoryResource.hasValue()) {
+  @for (match of matchHistory(); track match.id) {
+    {{ match.id }}
+  }
+}

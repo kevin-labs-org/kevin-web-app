@@ -1,5 +1,6 @@
 import { Component, computed, inject, resource, signal } from '@angular/core';
 import { ProfileService } from '@/profile/profile-service';
+import { MatchHistoryStore } from '@/profile/match-history-store';
 
 @Component({
   selector: 'app-profile-overview',
@@ -21,8 +22,17 @@ export class ProfileOverview {
     loader: ({ params }) => this.profileService.getRankHistory(params.puuid),
   });
 
-  protected readonly matchHistoryResource = resource({
-    params: () => ({ puuid: this.puuid() }),
-    loader: ({ params }) => this.profileService.getMatchHistory(params.puuid),
+  readonly matchHistoryStore = inject(MatchHistoryStore);
+
+  constructor() {
+    this.matchHistoryStore.puuid.set('ads');
+  }
+
+  protected readonly matchHistory = computed(() => {
+    return this.matchHistoryStore.matchHistory()?.matchList ?? [];
+  });
+
+  protected readonly isLoading = computed(() => {
+    return this.matchHistoryStore.matchHistoryResource.isLoading();
   });
 }

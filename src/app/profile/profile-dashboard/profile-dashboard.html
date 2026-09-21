@@ -3,12 +3,20 @@
     <img ngSrc="a" width="100" height="100" alt="Profile Icon" />
     <div class="flex flex-col">
       <h1>
-        {{ summoner()?.name }}
+        {{ profile()?.name }}
         <span>#</span>
-        <span>{{ summoner()?.tag }}</span>
+        <span>{{ profile()?.tag }}</span>
       </h1>
       <div class="flex">
-        <button z-button zType="outline">Update</button>
+        <button
+          (click)="this.refreshProfile()"
+          [zLoading]="shouldDisableRefresh()"
+          [zDisabled]="shouldDisableRefresh()"
+          z-button
+          zType="outline"
+        >
+          Update
+        </button>
       </div>
     </div>
   </div>
@@ -17,7 +25,7 @@
     <a routerLink="overview" class="p-6" routerLinkActive="border-b">
       Overview
     </a>
-    <a routerLink="match-list" class="p-6"  routerLinkActive="border-b">
+    <a routerLink="champions" class="p-6"  routerLinkActive="border-b">
       Matches
     </a>
   </div>
