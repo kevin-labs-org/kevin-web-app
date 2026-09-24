@@ -4,17 +4,18 @@ import { provideIcons } from '@ng-icons/core';
 import { DdragonService } from '@/ddragon/ddragon-service';
 import { ZardCardComponent, ZardCardHeaderComponent } from '@/shared/components/card';
 import { MatchHistory } from '@/profile/match-history';
-import { NgOptimizedImage } from '@angular/common';
+import { AsyncPipe, NgOptimizedImage } from '@angular/common';
 
 @Component({
   selector: 'app-match-history-card',
-  imports: [ZardCardComponent, ZardCardHeaderComponent, NgOptimizedImage],
+  imports: [AsyncPipe, ZardCardComponent, ZardCardHeaderComponent, NgOptimizedImage],
   templateUrl: './match-history-card.html',
   styleUrl: './match-history-card.css',
   viewProviders: [provideIcons({ lucideArrowUp, lucidePopcorn })],
 })
 export class MatchHistoryCard {
   protected readonly ddragonService = inject(DdragonService);
+  protected readonly championSquare$ = this.ddragonService.getChampionSquare('4');
 
   matchHistory = input.required<MatchHistory>();
 }

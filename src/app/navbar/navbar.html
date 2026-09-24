@@ -41,10 +41,11 @@
   </z-dropdown-menu-item>
 </z-dropdown-menu-content>
 
-<nav>
+<div class="sticky top-0 z-100 bg-background">
   <div class="flex items-center justify-between p-6">
     <div class="flex items-center gap-4">
       <a routerLink="/">Home</a>
+      <a routerLink="/profiles">Profiles</a>
     </div>
     <div class="flex items-center">
       <button type="button" z-button zType="outline" (click)="open()">
@@ -54,4 +55,4 @@
       <button type="button" z-button zType="outline" z-dropdown [zDropdownMenu]="menu">Open menu</button>
     </div>
   </div>
-</nav>
+</div>
