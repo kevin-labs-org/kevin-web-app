@@ -15,7 +15,7 @@ import { AsyncPipe, NgOptimizedImage } from '@angular/common';
 })
 export class MatchHistoryCard {
   protected readonly ddragonService = inject(DdragonService);
-  protected readonly championSquare$ = this.ddragonService.getChampionSquare('4');
+  protected readonly championSquare$ = this.ddragonService.getChampionSquare(4);
 
   matchHistory = input.required<MatchHistory>();
 }

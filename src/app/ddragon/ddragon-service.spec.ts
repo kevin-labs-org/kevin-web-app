@@ -20,9 +20,7 @@ describe('DdragonService', () => {
   });
 
   it('should return Draven square image path', () => {
-    let got: string | undefined;
-
-    service.getChampionSquare('119').subscribe((path) => (got = path));
+    const got = service.getChampionSquare(119);
 
     http
       .expectOne('https://ddragon.leagueoflegends.com/cdn/16.16.1/data/en_US/champion.json')
@@ -39,10 +37,10 @@ describe('DdragonService', () => {
   });
 
   it('should return Sixth Sense url', () => {
-    service.getRuneImageUrl(8137).subscribe((got) => {
-      expect(got).toBe(
-        'https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Domination/SixthSense/SixthSense.png',
-      );
-    });
+    const got = service.getRuneImageUrl(8137);
+
+    expect(got).toBe(
+      'https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Domination/SixthSense/SixthSense.png',
+    );
   });
 });

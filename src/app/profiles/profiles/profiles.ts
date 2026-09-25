@@ -29,7 +29,7 @@ export class Profiles {
           'https://wiki.leagueoflegends.com/en-us/images/thumb/Yasuo_OriginalSquare.png/40px-Yasuo_OriginalSquare.png?efb3b',
           'https://wiki.leagueoflegends.com/en-us/images/thumb/Yasuo_OriginalSquare.png/40px-Yasuo_OriginalSquare.png?efb3b',
         ],
-        profileIconId: 'https://ddragon-webp.lolmath.net/latest/img/profileicon/7.webp',
+        profileIconId: '7',
       } as Profile,
       {
         tier: 'Challenger',

@@ -1,28 +1,20 @@
 import { inject, Service } from '@angular/core';
 import { DdragonMetadataService } from '@/ddragon/ddragon-metadata-service';
-import { map, Observable } from 'rxjs';
 import { JsonDataService } from '@/ddragon/json-data-service';
 import { Rune, Slot, Tree } from '@/ddragon/runes-reforged';
+import { IdentifierService } from '@/ddragon/identifier-service';
 
 @Service()
 export class ImagePathService {
   private readonly ddragonMetaDataService = inject(DdragonMetadataService);
   private readonly jsonDataService = inject(JsonDataService);
+  private readonly identifierService = inject(IdentifierService);
 
-  getChampionSquare(championId: string): Observable<string> {
-    return this.jsonDataService.getChampion().pipe(
-      map((data) => {
-        const champion = Object.values(data.data).find((c) => c.id === championId);
-
-        return champion
-          ? `cdn/${this.ddragonMetaDataService.version}/img/champion/${champion.image.full}.png`
-          : '';
-      }),
-    );
-  }
-
-  getChampionSplash(championId: number): string {
-    return `cdn/${this.ddragonMetaDataService.version}/img/champion/${championId}/splash.png`;
+  getChampionSquare(championId: number): string {
+    const championJson = this.jsonDataService.champion.value();
+    const championName = this.identifierService.championIdToName(championId);
+    const image = championJson?.data[championName]?.image.full;
+    return `cdn/${this.ddragonMetaDataService.version}/img/champion/${image}.png`;
   }
 
   getProfileIcon(profileIconId: number): string {
@@ -33,16 +25,18 @@ export class ImagePathService {
     return `cdn/${this.ddragonMetaDataService.version}/img/item/${itemId}.png`;
   }
 
-  getRune(runeId: number): Observable<string> {
-    return this.jsonDataService.getRunesReforged().pipe(
-      map((data) => {
-        const rune = data
-          .flatMap((t: Tree) => t.slots)
-          .flatMap((s: Slot) => s.runes)
-          .find((r: Rune) => r.id === runeId);
+  getSpell(spellId: string): string {
+    return `cdn/${this.ddragonMetaDataService.version}/img/spell/${spellId}.png`;
+  }
 
-        return rune ? `cdn/img/${rune.icon}` : '';
-      }),
-    );
+  getRune(runeId: number): string {
+    const runesReforgedJson = this.jsonDataService.runesReforged.value();
+
+    const rune = runesReforgedJson
+      ?.flatMap((t: Tree) => t.slots)
+      .flatMap((s: Slot) => s.runes)
+      .find((r: Rune) => r.id === runeId);
+
+    return `cdn/img/${rune?.icon}`;
   }
 }

@@ -1,15 +1,13 @@
 <z-card>
   <div z-card-header>
     <div class="flex">
-      @if (championSquare$ | async; as championSquare) {
-        <img
-          [ngSrc]="championSquare"
-          alt="Champion"
-          width="36"
-          height="36"
-          class="rounded-full"
-        >
-      }
+      <img
+        [ngSrc]="championSquare$"
+        alt="Champion"
+        width="36"
+        height="36"
+        class="rounded-full"
+      >
     </div>
     <div class="flex">
 

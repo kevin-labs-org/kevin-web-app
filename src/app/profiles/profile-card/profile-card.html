@@ -3,7 +3,7 @@
     <div class="grid grid-cols-2 gap-3">
       <div class="flex gap-1">
         <div class="flex gap-2 items-start">
-          <z-avatar [zSrc]="profile().profileIconId" />
+          <z-avatar [zSrc]="profileIconUrl()" />
           <div class="flex gap-1 items-start">
             <h4 class="text-lg leading-tight">{{ profile().name }}</h4>
             <span class="leading-tight font-light text-muted-foreground">#{{ profile().tag }}</span>
@@ -25,10 +25,13 @@
         </z-avatar-group>
       </div>
       <div class="flex gap-1 items-end justify-end">
-        <div class="flex gap-1 items-center">
+        <div class="flex items-center">
           <span>573</span>
-          <span>-</span>
-          <span>239</span>
+          <ng-icon name="lucideMinus" class="text-muted"></ng-icon>
+          <span class="text-muted">239</span>
+        </div>
+        <div>
+          (15%)
         </div>
       </div>
     </div>
