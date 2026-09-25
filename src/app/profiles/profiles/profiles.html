@@ -1,0 +1,32 @@
+<div class="flex flex-col gap-10 max-w-4xl p-4 mx-auto">
+  <h1 class="font-semibold text-2xl">
+    Profiles
+  </h1>
+  <div class="flex items-center justify-center">
+    <div>
+      Bruh
+    </div>
+  </div>
+
+  <div class="flex flex-col gap-4">
+    <h2 class="font-semibold text-xl">
+      Recently Viewed
+    </h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      @for (profile of ladderResource.value(); track profile.puuid) {
+        <app-profile-card [profile]="profile" />
+      }
+    </div>
+  </div>
+
+  <div class="flex flex-col gap-4">
+    <h2 class="font-semibold text-xl">
+      Saved
+    </h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      @for (profile of ladderResource.value(); track profile.puuid) {
+        <app-profile-card [profile]="profile" />
+      }
+    </div>
+  </div>
+</div>

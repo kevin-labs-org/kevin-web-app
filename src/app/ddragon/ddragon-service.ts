@@ -1,54 +1,60 @@
-import { Injectable } from '@angular/core';
+import { inject, Service } from '@angular/core';
+import { ImagePathService } from '@/ddragon/image-path-service';
+import { DdragonMetadataService } from '@/ddragon/ddragon-metadata-service';
+import { ItemModel } from '@/ddragon/item-model';
+import { JsonDataService } from '@/ddragon/json-data-service';
+import { IdentifierService } from '@/ddragon/identifier-service';
+import { ChampionModel } from '@/ddragon/champion-model';
 
-const VERSION = '16.16.1';
-const LOCALE = 'en_US';
-const BASE = 'https://ddragon.leagueoflegends.com';
-
-interface ImageTypeConfig {
-  path: (id: string) => string;
-  extension?: string;
-}
-
-const IMAGE_CONFIG = {
-  championSquare: {
-    path: (championId: string) => `${BASE}/cdn/${VERSION}/img/champion/${championId}`,
-    extension: 'png',
-  },
-  championFull: {
-    path: (championId: string) => `champion/${championId}/splash`,
-    extension: 'png',
-  },
-  profileIcon: {
-    path: (profileId: string) => `${BASE}/cdn/${VERSION}/img/profileicon/${profileId}`,
-    extension: 'png',
-  },
-} as const satisfies Record<string, ImageTypeConfig>;
-
-interface JsonTypeConfig {
-  path: string | ((id: string) => string);
-}
-
-const JSON_CONFIG: Record<string, JsonTypeConfig> = {
-  champion: {
-    path: (championId: string) =>
-      `https://ddragon.leagueoflegends.com/cdn/${VERSION}/data/${LOCALE}/champion/${championId}.json`,
-  },
-};
-
-type ImageType = keyof typeof IMAGE_CONFIG;
-type JsonType = keyof typeof JSON_CONFIG;
-
-@Injectable({
-  providedIn: 'root',
-})
+@Service()
 export class DdragonService {
-  public getImageUrl(type: ImageType, id: string): string {
-    const { path, extension = 'png' } = IMAGE_CONFIG[type];
-    return `${path(id)}.${extension}`;
+  private readonly ddragonMetaDataService = inject(DdragonMetadataService);
+  private readonly identiferService = inject(IdentifierService);
+  private readonly jsonDataService = inject(JsonDataService);
+  private readonly imagePathService = inject(ImagePathService);
+
+  public getChampionSquare(championId: number): string {
+    const path = this.imagePathService.getChampionSquare(championId);
+    return `${this.ddragonMetaDataService.cdnUrl}/${path}`;
   }
 
-  public getJson(type: JsonType, id: string): Object {
-    const { path } = JSON_CONFIG[type];
-    return `${BASE}/${typeof path === 'string' ? path : path(id)}`;
+  public getRuneImageUrl(runeId: number): string {
+    const path = this.imagePathService.getRune(runeId);
+    return `${this.ddragonMetaDataService.cdnUrl}/${path}`;
+  }
+
+  getChampion(championId: number): ChampionModel | undefined {
+    const champion = this.identiferService.championIdToChampion(championId);
+
+    if (!champion) {
+      return undefined;
+    }
+
+    return {
+      id: championId,
+      name: champion.name,
+      iconUrl: `${this.ddragonMetaDataService.cdnUrl}/${this.imagePathService.getChampionSquare(championId)}`,
+    };
+  }
+
+  getItem(itemId: number): ItemModel | undefined {
+    const item = this.identiferService.itemIdToItem(itemId);
+
+    if (!item) {
+      return undefined;
+    }
+
+    return {
+      description: item.description,
+      gold: item.gold.base,
+      id: itemId,
+      imageUrl: `${this.ddragonMetaDataService.cdnUrl}/${this.imagePathService.getItem(itemId)}`,
+      name: item.name,
+    };
+  }
+
+  getProfileIconUrl(profileIconId: string): string {
+    const path = this.imagePathService.getProfileIcon(parseInt(profileIconId));
+    return `${this.ddragonMetaDataService.cdnUrl}/${path}`;
   }
 }

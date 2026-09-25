@@ -1,0 +1,39 @@
+<z-card>
+  <div z-card-content>
+    <div class="grid grid-cols-2 gap-3">
+      <div class="flex gap-1">
+        <div class="flex gap-2 items-start">
+          <z-avatar [zSrc]="profileIconUrl()" />
+          <div class="flex gap-1 items-start">
+            <h4 class="text-lg leading-tight">{{ profile().name }}</h4>
+            <span class="leading-tight font-light text-muted-foreground">#{{ profile().tag }}</span>
+          </div>
+        </div>
+      </div>
+      <div class="flex gap-1 justify-end">
+        <app-rank-badge
+          [tier]="tier()"
+          [division]="division()"
+          [leaguePoints]="profile().leaguePoints"
+        ></app-rank-badge>
+      </div>
+      <div class="flex gap-1 items-end">
+        <z-avatar-group>
+          @for (champion of profile().champions; track champion) {
+            <z-avatar [zSrc]="champion" [zSize]="'sm'"></z-avatar>
+          }
+        </z-avatar-group>
+      </div>
+      <div class="flex gap-1 items-end justify-end">
+        <div class="flex items-center">
+          <span>573</span>
+          <ng-icon name="lucideMinus" class="text-muted"></ng-icon>
+          <span class="text-muted">239</span>
+        </div>
+        <div>
+          (15%)
+        </div>
+      </div>
+    </div>
+  </div>
+</z-card>

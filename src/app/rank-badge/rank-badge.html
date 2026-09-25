@@ -1,0 +1,7 @@
+<z-badge [class]="rankColorClass()">
+  {{ tier() }}
+  @if (shouldShowDivision()) {
+    {{ division() }}
+  }
+  {{ leaguePoints() }} LP
+</z-badge>

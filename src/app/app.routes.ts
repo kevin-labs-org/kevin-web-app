@@ -1,12 +1,12 @@
 import { Routes } from '@angular/router';
 import { ProfileDashboard } from '@/profile/profile-dashboard/profile-dashboard';
 import { ProfileOverview } from '@/profile/profile-overview/profile-overview';
-import { summonerResolver } from '@/profile/summoner-resolver';
 import { LandingScreen } from '@/landing/landing-screen/landing-screen';
 import { profileResolver } from '@/profile/profile-resolver';
 import { ProfileStore } from '@/profile/profile-store';
 import { MatchHistoryStore } from '@/profile/match-history-store';
 import { ProfileChampionAvg } from '@/profile/profile-champion-avg/profile-champion-avg';
+import { Profiles } from '@/profiles/profiles/profiles';
 
 export const routes: Routes = [
   {
@@ -25,5 +25,9 @@ export const routes: Routes = [
       { path: 'overview', component: ProfileOverview },
       { path: 'champions', component: ProfileChampionAvg },
     ],
+  },
+  {
+    path: 'profiles',
+    component: Profiles,
   },
 ];
