@@ -4,10 +4,7 @@
       <div class="flex gap-1">
         <div class="flex gap-2 items-start">
           <z-avatar [zSrc]="profileIconUrl()" />
-          <div class="flex gap-1 items-start">
-            <h4 class="text-lg leading-tight">{{ profile().name }}</h4>
-            <span class="leading-tight font-light text-muted-foreground">#{{ profile().tag }}</span>
-          </div>
+          <app-summoner-handle [name]="profile().name" [tag]="profile().tag"/>
         </div>
       </div>
       <div class="flex gap-1 justify-end">
@@ -25,14 +22,7 @@
         </z-avatar-group>
       </div>
       <div class="flex gap-1 items-end justify-end">
-        <div class="flex items-center">
-          <span>573</span>
-          <ng-icon name="lucideMinus" class="text-muted"></ng-icon>
-          <span class="text-muted">239</span>
-        </div>
-        <div>
-          (15%)
-        </div>
+        <app-win-loss [wins]="12" [losses]="5"/>
       </div>
     </div>
   </div>

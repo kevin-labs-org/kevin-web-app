@@ -1,0 +1,25 @@
+<z-card>
+  <div z-card-content>
+    <div class="grid grid-cols-2 gap-3">
+      <div class="flex gap-1">
+        <div class="flex gap-2 items-start">
+          <app-summoner-handle [name]="ladderEntry().name" [tag]="ladderEntry().tag"/>
+        </div>
+      </div>
+      <div class="flex gap-1 justify-end">
+      </div>
+      <div class="flex gap-1 items-end">
+      </div>
+      <div class="flex gap-1 items-end justify-end">
+        <div class="flex items-center">
+          <span>573</span>
+          <ng-icon name="lucideMinus" class="text-muted"></ng-icon>
+          <span class="text-muted">239</span>
+        </div>
+        <div>
+          (15%)
+        </div>
+      </div>
+    </div>
+  </div>
+</z-card>
