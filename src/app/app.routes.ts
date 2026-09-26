@@ -7,6 +7,9 @@ import { ProfileStore } from '@/profile/profile-store';
 import { MatchHistoryStore } from '@/profile/match-history-store';
 import { ProfileChampionAvg } from '@/profile/profile-champion-avg/profile-champion-avg';
 import { Profiles } from '@/profiles/profiles/profiles';
+import { Ladder } from '@/ladder/ladder/ladder';
+import { LadderLeaderboard } from '@/ladder/ladder-leaderboard/ladder-leaderboard';
+import { Region } from '@/region';
 
 export const routes: Routes = [
   {
@@ -29,5 +32,13 @@ export const routes: Routes = [
   {
     path: 'profiles',
     component: Profiles,
+  },
+  {
+    path: 'ladder',
+    component: Ladder,
+    children: [
+      { path: '', redirectTo: Region.NA, pathMatch: 'full' },
+      { path: ':region', component: LadderLeaderboard },
+    ],
   },
 ];

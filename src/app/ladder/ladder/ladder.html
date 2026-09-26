@@ -1,0 +1,16 @@
+<z-dropdown-menu-content #menu="zDropdownMenuContent" class="w-48">
+  @for (region of regions; track region) {
+    <z-dropdown-menu-item [disabled]="region === currentRegion()">
+      {{ regionLabel[region] }}
+    </z-dropdown-menu-item>
+  }
+</z-dropdown-menu-content>
+
+<div class="flex gap-1">
+  <h1 class="text-2xl">Ladder</h1>
+  <button type="button" z-button zType="outline" z-dropdown [zDropdownMenu]="menu">
+    Open menu
+  </button>
+</div>
+
+<router-outlet />

@@ -1,0 +1,8 @@
+<div class="flex gap-3 items-center">
+  <div class="text-lg">
+    <span>{{ wins() }}</span><span class="text-muted-foreground">-</span><span class="text-muted-foreground">{{ losses() }}</span>
+  </div>
+  <span class="text-base">
+    {{ winPercentage() | number:'1.0-0' }}%
+  </span>
+</div>

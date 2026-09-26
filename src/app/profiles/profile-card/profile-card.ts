@@ -4,11 +4,13 @@ import { ZardAvatarImports } from '@/shared/components/avatar';
 import { Profile } from '@/profiles/profile';
 import { RankBadge, RankDivision, RankTier } from '@/rank-badge/rank-badge';
 import { DdragonService } from '@/ddragon/ddragon-service';
-import { NgIcon, provideIcons } from '@ng-icons/core';
+import { provideIcons } from '@ng-icons/core';
 import { lucideMinus, lucideSlash } from '@ng-icons/lucide';
+import { SummonerHandle } from '@/summoner-handle/summoner-handle';
+import { WinLoss } from '@/win-loss/win-loss';
 
 @Component({
-  imports: [ZardCardImports, ZardAvatarImports, RankBadge, NgIcon],
+  imports: [ZardCardImports, ZardAvatarImports, RankBadge, SummonerHandle, WinLoss],
   selector: 'app-profile-card',
   styleUrl: './profile-card.css',
   templateUrl: './profile-card.html',
