@@ -1,4 +1,4 @@
-import { Injectable, resource, Service, signal } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { EMPTY, Observable } from 'rxjs';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { GetMatchHistoryResponse } from '@/profile/get-match-history-response';
@@ -33,14 +33,14 @@ export class MatchHistoryStore {
               region: '',
               match_id: 'bro',
               puuid: '',
-              gameMode: '',
+              gameMode: 'Ranked Solo/Duo',
               date: new Date(),
               duration: 0,
               version: 0,
               winner_id: '',
               team_id: '',
               participant_id: '',
-              championId: '',
+              championId: '1',
               championLevel: 0,
               teamPosition: '',
               summonerSpellIds: [],
@@ -71,4 +71,3 @@ export class MatchHistoryStore {
     });
   }
 }
-

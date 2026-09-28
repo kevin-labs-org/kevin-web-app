@@ -1,10 +1,11 @@
 import { Component, computed, inject, resource, signal } from '@angular/core';
 import { ProfileService } from '@/profile/profile-service';
 import { MatchHistoryStore } from '@/profile/match-history-store';
+import { MatchHistoryCard } from '@/profile/match-history-card/match-history-card';
 
 @Component({
   selector: 'app-profile-overview',
-  imports: [],
+  imports: [MatchHistoryCard],
   templateUrl: './profile-overview.html',
   styleUrl: './profile-overview.css',
 })

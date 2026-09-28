@@ -1,16 +1,53 @@
-<z-card>
-  <div z-card-header>
-    <div class="flex">
-      <img
-        [ngSrc]="championSquare$"
-        alt="Champion"
-        width="36"
-        height="36"
-        class="rounded-full"
-      >
+<div class="flex flex-col gap-2">
+  <z-card>
+    <div z-card-content>
+      <div class="flex justify-between">
+        <div class="flex">
+          <app-champion-icon [championId]="matchHistory().championId" />
+          <div class="flex flex-col">
+            <span>{{ matchHistory().gameMode }}</span>
+            <span>{{ matchHistory().date }}, {{ matchHistory().duration }}</span>
+          </div>
+        </div>
+        <div class="flex">
+          <app-rank-badge [tier]="'Challenger'" [division]="'I'" [leaguePoints]="491"></app-rank-badge>
+        </div>
+      </div>
     </div>
-    <div class="flex">
-
-    </div>
-  </div>
-</z-card>
+  </z-card>
+  <z-collapsible class="flex flex-col gap-2" [zOpen]="open()">
+    <z-collapsible-content>
+      <!--      <z-card>-->
+      <!--        <div z-card-content>-->
+      <!--          <p>-->
+      <!--            Both buttons drive the same signal, so the component stays in sync with the host state.-->
+      <!--          </p>-->
+      <!--        </div>-->
+      <!--      </z-card>-->
+      <div class="grid grid-cols-2 rounded-md border px-4 py-3 gap-3">
+        <app-statistic-group title="KDA">
+          <span>3/4/5</span>
+        </app-statistic-group>
+        <app-statistic-group title="CS">
+          <span>123</span>
+          <span>13.4/min</span>
+        </app-statistic-group>
+        <app-statistic-group title="Gold">
+          <span>123</span>
+        </app-statistic-group>
+        <app-statistic-group title="Damage">
+          <span>123</span>
+        </app-statistic-group>
+        <app-statistic-group title="Summoners">
+          <span>123</span>
+        </app-statistic-group>
+        <app-statistic-group title="Items">
+          <app-inventory-widget [itemIds]="['1001', '1001', '']"/>
+        </app-statistic-group>
+        <app-statistic-group title="Runes">
+          <span>123</span>
+        </app-statistic-group>
+      </div>
+    </z-collapsible-content>
+  </z-collapsible>
+</div>

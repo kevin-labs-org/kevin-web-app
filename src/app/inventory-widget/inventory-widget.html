@@ -1,0 +1,17 @@
+@if (!valuesReady()) {
+  @for (i of [0, 1, 2, 3, 4, 5, 6]; track i) {
+    <z-avatar-group>
+      <z-skeleton class="size-8 rounded-full bg-muted shrink-0"/>
+    </z-avatar-group>
+  }
+} @else {
+  <z-avatar-group>
+    @for (ite of items(); track $index) {
+      @if (ite === null) {
+        <div class="size-8 rounded-full bg-muted shrink-0"></div>
+      } @else {
+        <z-avatar [zSrc]="ite?.imageUrl || ''" [zAlt]="ite?.name || ''" [zTooltip]="ite?.name || ''"/>
+      }
+    }
+  </z-avatar-group>
+}

@@ -7,23 +7,12 @@ import { ChampionS } from '@/ddragon/champion';
 export class IdentifierService {
   private readonly jsonDataService = inject(JsonDataService);
 
-  private readonly championIdToNameMap = computed(() => {
-    const championJson = this.jsonDataService.champion.value();
-    const result = new Map<number, string>();
-
-    Object.values(championJson?.data || []).forEach((champion) => {
-      result.set(parseInt(champion.key), champion.name);
-    });
-
-    return result;
-  });
-
   private readonly championIdToChampionMap = computed(() => {
     const championJson = this.jsonDataService.champion.value();
-    const result = new Map<number, ChampionS>();
+    const result = new Map<string, ChampionS>();
 
     Object.values(championJson?.data || []).forEach((champion) => {
-      result.set(parseInt(champion.key), champion);
+      result.set(champion.key, champion);
     });
 
     return result;
@@ -31,28 +20,30 @@ export class IdentifierService {
 
   private readonly itemIdToItemMap = computed(() => {
     const itemJson = this.jsonDataService.item.value();
-    if (!itemJson) {
-      return new Map<number, ItemData>();
-    }
+    const result = new Map<string, ItemData>();
 
-    const result = new Map<number, ItemData>();
-
-    Object.values(itemJson?.data || []).forEach((item) => {
-      result.set(parseInt(item.key), item);
+    Object.entries(itemJson?.data || {}).forEach((item) => {
+      result.set(item[0], item[1]);
     });
 
     return result;
   });
 
-  championIdToName(championId: number): string {
-    return this.championIdToNameMap().get(championId) || '';
-  }
-
-  itemIdToItem(itemId: number): ItemData | undefined {
-    return this.itemIdToItemMap().get(itemId);
-  }
-
-  championIdToChampion(championId: number): ChampionS | undefined {
+  championIdToChampion(championId: string): ChampionS | undefined {
     return this.championIdToChampionMap().get(championId);
+  }
+
+  itemIdToItem(itemId: string): ItemData | undefined {
+    if (this.jsonDataService.item.isLoading()) {
+      return undefined;
+    }
+
+    const item = this.itemIdToItemMap().get(itemId);
+    if (!item) {
+      console.warn(`Could not find item: ${itemId}`);
+      return undefined;
+    }
+
+    return item;
   }
 }

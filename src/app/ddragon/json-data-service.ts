@@ -12,19 +12,20 @@ import { Item } from '@/ddragon/item';
 @Service()
 export class JsonDataService {
   private readonly http = inject(HttpClient);
-
   private readonly jsonPathService = inject(JsonPathService);
 
-  readonly champion = httpResource<Champion>(() => {
+  private readonly _champion = httpResource<Champion>(() => {
     return this.jsonPathService.getChampionJson('en_US');
   });
+
+  readonly champion = this._champion.asReadonly();
 
   readonly runesReforged = httpResource<RunesReforged>(() => {
     return this.jsonPathService.getRunesReforgedJson('en_US');
   });
 
   readonly item = httpResource<Item>(() => {
-    return this.jsonPathService.getRunesReforgedJson('en_US');
+    return this.jsonPathService.getItemJson('en_US');
   });
 
   readonly itemModifiers = httpResource<RunesReforged>(() => {
