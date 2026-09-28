@@ -1,0 +1,11 @@
+<div class="flex justify-between">
+  <div class="flex">
+    <app-champion-icon [championId]="player().championId"></app-champion-icon>
+    <div class="flex flex-col">
+      <app-summoner-handle [name]="player().name" [tag]="player().tag"></app-summoner-handle>
+      <app-rank-badge [tier]="'Challenger'" [division]="'I'" [leaguePoints]="491"></app-rank-badge>
+    </div>
+  </div>
+  <div class="flex">
+  </div>
+</div>

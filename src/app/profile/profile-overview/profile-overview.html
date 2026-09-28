@@ -1,17 +1,21 @@
-<div class="flex flex-col gap-8">
-  @if (!!rankHistoryResource.error()) {
-    <p>Some error has occurred!</p>
-  } @else if (rankHistoryResource.isLoading()) {
-    <p>Loading!</p>
-  } @else if (rankHistoryResource.hasValue()) {
-    <p>Has value</p>
-  }
-</div>
-
 @if (isLoading()) {
   <p>Loading</p>
-} @if (matchHistoryStore.matchHistoryResource.hasValue()) {
-  @for (match of matchHistory(); track match.id) {
-    <app-match-history-card [matchHistory]="match"/>
-  }
+}
+@if (matchHistoryStore.matchHistoryResource.hasValue()) {
+  <div class="flex flex-col gap-6">
+    @for (day of matchHistoryByDate() | keyvalue; track day.key) {
+      <div class="flex flex-col gap-4">
+        <z-marker>
+          <z-marker-content>{{ day.key | date: 'EEE MMM d' }}</z-marker-content>
+        </z-marker>
+        <ol>
+          @for (match of day.value; track match.id) {
+            <li>
+              <app-match-history-card [matchHistory]="match" />
+            </li>
+          }
+        </ol>
+      </div>
+    }
+  </div>
 }
