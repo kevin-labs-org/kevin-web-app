@@ -8,6 +8,9 @@ import { ZardMarkerImports } from '@/shared/components/marker';
 import { ZardComboboxImports, ZardComboboxOption } from '@/shared/components/combobox';
 import { DdragonService } from '@/ddragon/ddragon-service';
 import { ZardButtonComponent } from '@/shared/components/button';
+import { ZardChartConfig, ZardChartSeries } from '@/shared/components/chart';
+import { RankGraphCard } from '@/profile/rank-graph-card/rank-graph-card';
+import { ChampionCard } from '@/profile/champion-card/champion-card';
 
 interface FilterCriteria {
   championId: string;
@@ -27,6 +30,8 @@ const SortCriteria = {
     DatePipe,
     ZardComboboxImports,
     ZardButtonComponent,
+    RankGraphCard,
+    ChampionCard,
   ],
   templateUrl: './profile-overview.html',
   styleUrl: './profile-overview.css',
@@ -84,7 +89,7 @@ export class ProfileOverview {
     { value: SortCriteria.DATE_ASC, label: 'Date asc' },
   ];
 
-  protected readonly selectedSortOption = signal<string | string[] | null>(SortCriteria.DATE_DESC);
+  protected selectedSortOption = signal<string | string[] | null>(SortCriteria.DATE_DESC);
 
   protected readonly isSortedByDate = computed(() => {
     return (
@@ -132,4 +137,18 @@ export class ProfileOverview {
   protected mapComboboxInput(input: string | string[] | null): string {
     return input instanceof Array ? input[0] : input || '';
   }
+
+  protected readonly chartConfig: ZardChartConfig = {
+    desktop: { label: 'Desktop', color: 'var(--chart-1)' },
+  };
+  protected readonly chartData = [
+    { month: 'January', desktop: 186, mobile: 80 },
+    { month: 'February', desktop: 305, mobile: 200 },
+    { month: 'March', desktop: 237, mobile: 120 },
+    { month: 'April', desktop: 73, mobile: 190 },
+    { month: 'May', desktop: 209, mobile: 130 },
+    { month: 'June', desktop: 214, mobile: 140 },
+  ];
+  protected readonly series: ZardChartSeries[] = [{ dataKey: 'desktop', smooth: true }];
+  protected readonly shortMonth = (value: string) => value.slice(0, 3);
 }

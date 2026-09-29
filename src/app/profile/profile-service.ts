@@ -43,6 +43,16 @@ export class ProfileService {
   }
 
   async getRankHistory(puuid: string): Promise<RankHistory[]> {
-    throw new Error('Method not implemented.');
+    return [
+      {
+        id: 'ok',
+        region: 'NA1',
+        puuid: 'adada',
+        date: new Date(),
+        tier: 'Bro',
+        rank: 'Dude',
+        league_points: 100,
+      },
+    ];
   }
 }

@@ -5,6 +5,7 @@ import { provideRouter, withComponentInputBinding } from '@angular/router';
 import { routes } from './app.routes';
 import { provideZard } from '@/shared/core/provider/providezard';
 import { provideClientHydration } from '@angular/platform-browser';
+import { provideZardCharts } from '@/shared/components/chart';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -13,5 +14,6 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes, withComponentInputBinding()),
     provideZard(),
     provideClientHydration(),
+    provideZardCharts(),
   ],
 };

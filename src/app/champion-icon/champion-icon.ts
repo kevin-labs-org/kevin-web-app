@@ -11,6 +11,7 @@ import { ZardSkeletonComponent } from '@/shared/components/skeleton';
 })
 export class ChampionIcon {
   readonly championId = input.required<string>();
+  protected readonly size = input<'sm' | 'default' | 'lg'>('default');
 
   private readonly ddragonService = inject(DdragonService);
 

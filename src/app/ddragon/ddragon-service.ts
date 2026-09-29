@@ -39,7 +39,6 @@ export class DdragonService {
   getAllChampions(): ChampionModel[] | undefined {
     const ids = this.identiferService.allChampionIds();
     if (!ids) return undefined;
-    console.log(ids);
 
     const result: ChampionModel[] = [];
     for (const id of ids) {

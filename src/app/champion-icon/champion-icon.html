@@ -1,6 +1,6 @@
 @let imageUrl = championImageUrl();
 @if (imageUrl){
-  <z-avatar [zSrc]="imageUrl" [zAlt]="championId()" zSize="lg"/>
+  <z-avatar [zSrc]="imageUrl" [zAlt]="championId()" [zSize]="size()"/>
 } @else {
-  <z-skeleton class="size-10 shrink-0 rounded-full" />
+  <z-skeleton [class]="'size-10 shrink-0 rounded-full'" />
 }
