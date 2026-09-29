@@ -1,5 +1,5 @@
 export interface ChampionModel {
-  id: number;
+  id: string;
   name: string;
   iconUrl: string;
 }

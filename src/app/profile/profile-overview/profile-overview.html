@@ -1,17 +1,116 @@
-<div class="flex flex-col gap-8">
-  @if (!!rankHistoryResource.error()) {
-    <p>Some error has occurred!</p>
-  } @else if (rankHistoryResource.isLoading()) {
-    <p>Loading!</p>
-  } @else if (rankHistoryResource.hasValue()) {
-    <p>Has value</p>
-  }
+<div class="mx-auto max-w-2xl grid grid-cols-1 gap-10 lg:max-w-6xl lg:grid-cols-[1fr_20rem]">
+  <div class="flex flex-col gap-4 px-4 pt-10 pb-24 sm:px-6 lg:pr-0">
+    <div class="flex justify-between items-center">
+      <div class="flex items-center">
+        <z-combobox [zValue]="filterCriteria().championId"
+                    (zValueChange)="filterCriteria.set({ championId: mapComboboxInput($event) })" [class]="'w-fit'">
+          <button type="button" z-button z-combobox-trigger [zType]="'outline'"
+                  [class]="'w-48 justify-between font-normal'">
+            <z-combobox-value placeholder="Select champion" />
+          </button>
+          <z-combobox-content>
+            <z-combobox-input [zShowTrigger]="false" placeholder="Search champion..." />
+            <z-combobox-empty>No champion found.</z-combobox-empty>
+            <z-combobox-list>
+              @for (champion of championOptions(); track champion.value) {
+                <z-combobox-item [zValue]="champion.value">{{ champion.label }}</z-combobox-item>
+              }
+            </z-combobox-list>
+          </z-combobox-content>
+        </z-combobox>
+      </div>
+      <div class="flex items-center">
+        <z-combobox [(zValue)]="selectedSortOption" [class]="'w-fit'">
+          <button type="button" z-button z-combobox-trigger [zType]="'outline'"
+                  [class]="'w-48 justify-between font-normal'">
+            <z-combobox-value />
+          </button>
+          <z-combobox-content>
+            <z-combobox-list>
+              @for (option of sortOptions; track option.value) {
+                <z-combobox-item [zValue]="option.value"
+                                 [zDisabled]="option.value === selectedSortOption()">{{ option.label }}
+                </z-combobox-item>
+              }
+            </z-combobox-list>
+
+          </z-combobox-content>
+
+        </z-combobox>
+      </div>
+    </div>
+
+    @if (matchHistoryStore.matchHistoryResource.hasValue()) {
+      @if (isSortedByDate()) {
+        <div class="flex flex-col gap-6">
+          @for (day of matchHistoryByDate() | keyvalue; track day.key) {
+            <div class="flex flex-col gap-4">
+              <z-marker>
+                <z-marker-content>{{ day.key | date: 'EEE MMM d' }}</z-marker-content>
+              </z-marker>
+              <ol>
+                @for (match of day.value; track match.id) {
+                  <li>
+                    <app-match-history-card [matchHistory]="match" />
+                  </li>
+                } @empty {
+                  <span>No matches</span>
+                }
+              </ol>
+            </div>
+          }
+        </div>
+      } @else {
+        <ol>
+          @for (match of finalMatchHistory(); track match.id) {
+            <li>
+              <app-match-history-card [matchHistory]="match" />
+            </li>
+          } @empty {
+            <span>No matches</span>
+          }
+        </ol>
+      }
+    }
+  </div>
+
+  <aside class="hidden lg:block px-4 pt-10 pb-24 sm:px-6 lg:pl-0">
+    <!--
+      The sticky element goes INSIDE the aside, not on it.
+      The aside stretches to the full grid row height, which gives
+      the sticky child room to travel while you scroll.
+    -->
+
+    <div class="sticky top-6 max-h-[calc(100vh-3rem)] overflow-y-auto flex flex-col gap-4">
+      <app-rank-graph-card/>
+      <app-champion-card/>
+    </div>
+  </aside>
 </div>
 
-@if (isLoading()) {
-  <p>Loading</p>
-} @if (matchHistoryStore.matchHistoryResource.hasValue()) {
-  @for (match of matchHistory(); track match.id) {
-    {{ match.id }}
-  }
-}
+<!--<z-card class="w-full">-->
+<!--  <z-card-header>-->
+<!--    <z-card-title zTitle="Area Chart" />-->
+<!--    <z-card-description zDescription="Showing total visitors for the last 6 months" />-->
+<!--  </z-card-header>-->
+<!--  <z-card-content>-->
+<!--    <z-chart-->
+<!--      zType="area"-->
+<!--      [zConfig]="chartConfig"-->
+<!--      [zData]="chartData"-->
+<!--      [zSeries]="series"-->
+<!--      zXAxisKey="month"-->
+<!--      [zXAxisFormatter]="shortMonth"-->
+<!--      class="w-full"-->
+<!--    >-->
+<!--      <z-chart-tooltip zIndicator="line" />-->
+<!--    </z-chart>-->
+<!--  </z-card-content>-->
+<!--  <z-card-footer class="flex-col items-start gap-2 bg-transparent px-4 pt-0 pb-4 text-sm">-->
+<!--    <div class="flex items-center gap-2 leading-none font-medium">-->
+<!--      Trending up by 5.2% this month-->
+<!--      <ng-icon name="lucideTrendingUp" class="size-4" />-->
+<!--    </div>-->
+<!--    <div class="text-muted-foreground leading-none">January - June 2024</div>-->
+<!--  </z-card-footer>-->
+<!--</z-card>-->

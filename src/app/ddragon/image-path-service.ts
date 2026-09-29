@@ -10,19 +10,26 @@ export class ImagePathService {
   private readonly jsonDataService = inject(JsonDataService);
   private readonly identifierService = inject(IdentifierService);
 
-  getChampionSquare(championId: number): string {
-    const championJson = this.jsonDataService.champion.value();
-    const championName = this.identifierService.championIdToName(championId);
-    const image = championJson?.data[championName]?.image.full;
-    return `cdn/${this.ddragonMetaDataService.version}/img/champion/${image}.png`;
+  getChampionSquare(championId: string): string | undefined {
+    const champion = this.identifierService.championIdToChampion(championId);
+    if (!champion) return undefined;
+
+    const image = champion.image;
+    return `cdn/${this.ddragonMetaDataService.version}/img/${image.group}/${image.full}`;
   }
 
   getProfileIcon(profileIconId: number): string {
     return `cdn/${this.ddragonMetaDataService.version}/img/profileicon/${profileIconId}.png`;
   }
 
-  getItem(itemId: number): string {
-    return `cdn/${this.ddragonMetaDataService.version}/img/item/${itemId}.png`;
+  getItem(itemId: string): string | undefined {
+    const item = this.identifierService.itemIdToItem(itemId);
+    if (!item) {
+      return undefined;
+    }
+
+    const image = item.image;
+    return `cdn/${this.ddragonMetaDataService.version}/img/${image.group}/${image.full}`;
   }
 
   getSpell(spellId: string): string {

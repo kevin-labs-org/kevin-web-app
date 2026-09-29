@@ -1,0 +1,27 @@
+<z-card [zSize]="'sm'">
+  <z-card-content>
+    <div class="flex items-center gap-2">
+      <img [ngSrc]="'https://ddragon.leagueoflegends.com/cdn/img/ranked/Ranked_Challenger.png'" width="100" height="100" alt="Ji">
+      <div class="flex flex-col">
+        <span class="font-semibold text-lg">Challenger</span>
+        <span>4123LP</span>
+      </div>
+    </div>
+    @let data = chartData();
+    @if(data) {
+      <z-chart
+        [zType]="'area'"
+        [zConfig]="chartConfig"
+        [zData]="data"
+        [zSeries]="series"
+        zXAxisKey="date"
+        [class]="'w-full'"
+      >
+        <z-chart-tooltip [zIndicator]="'line'" />
+      </z-chart>
+    }
+  </z-card-content>
+  <z-card-footer [class]="'bg-transparent px-4 pt-0 pb-4 text-sm'">
+    <div class="text-muted-foreground leading-none">Last 2 Patches</div>
+  </z-card-footer>
+</z-card>

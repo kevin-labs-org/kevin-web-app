@@ -1,0 +1,29 @@
+<z-card>
+  <z-card-header>
+    <z-card-title zTitle="Overview" />
+  </z-card-header>
+  <div z-card-content class="grid grid-cols-2 px-4 py-3 gap-3">
+    <app-statistic-group title="KDA">
+      <span>3/4/5</span>
+    </app-statistic-group>
+    <app-statistic-group title="CS">
+      <span>123</span>
+      <span>13.4/min</span>
+    </app-statistic-group>
+    <app-statistic-group title="Gold">
+      <span>123</span>
+    </app-statistic-group>
+    <app-statistic-group title="Damage">
+      <span>123</span>
+    </app-statistic-group>
+    <app-statistic-group title="Summoners">
+      <span>123</span>
+    </app-statistic-group>
+    <app-statistic-group title="Items">
+      <app-inventory-widget [itemIds]="['1001', '1001', '']"/>
+    </app-statistic-group>
+    <app-statistic-group title="Runes">
+      <span>123</span>
+    </app-statistic-group>
+  </div>
+</z-card>

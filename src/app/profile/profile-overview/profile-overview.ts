@@ -1,15 +1,45 @@
 import { Component, computed, inject, resource, signal } from '@angular/core';
 import { ProfileService } from '@/profile/profile-service';
 import { MatchHistoryStore } from '@/profile/match-history-store';
+import { MatchHistoryCard } from '@/profile/match-history-card/match-history-card';
+import { MatchHistory } from '@/profile/match-history';
+import { DatePipe, KeyValuePipe } from '@angular/common';
+import { ZardMarkerImports } from '@/shared/components/marker';
+import { ZardComboboxImports, ZardComboboxOption } from '@/shared/components/combobox';
+import { DdragonService } from '@/ddragon/ddragon-service';
+import { ZardButtonComponent } from '@/shared/components/button';
+import { ZardChartConfig, ZardChartSeries } from '@/shared/components/chart';
+import { RankGraphCard } from '@/profile/rank-graph-card/rank-graph-card';
+import { ChampionCard } from '@/profile/champion-card/champion-card';
+
+interface FilterCriteria {
+  championId: string;
+}
+
+const SortCriteria = {
+  DATE_ASC: 'DATE_ASC',
+  DATE_DESC: 'DATE_DESC',
+};
 
 @Component({
   selector: 'app-profile-overview',
-  imports: [],
+  imports: [
+    MatchHistoryCard,
+    KeyValuePipe,
+    ZardMarkerImports,
+    DatePipe,
+    ZardComboboxImports,
+    ZardButtonComponent,
+    RankGraphCard,
+    ChampionCard,
+  ],
   templateUrl: './profile-overview.html',
   styleUrl: './profile-overview.css',
 })
 export class ProfileOverview {
   private readonly profileService = inject(ProfileService);
+  private readonly ddragonService = inject(DdragonService);
+  readonly matchHistoryStore = inject(MatchHistoryStore);
 
   readonly puuid = signal('');
 
@@ -22,8 +52,6 @@ export class ProfileOverview {
     loader: ({ params }) => this.profileService.getRankHistory(params.puuid),
   });
 
-  readonly matchHistoryStore = inject(MatchHistoryStore);
-
   constructor() {
     this.matchHistoryStore.puuid.set('ads');
   }
@@ -35,4 +63,92 @@ export class ProfileOverview {
   protected readonly isLoading = computed(() => {
     return this.matchHistoryStore.matchHistoryResource.isLoading();
   });
+
+  protected readonly filterCriteria = signal<FilterCriteria>({ championId: '' });
+
+  protected readonly championOptions = computed<ZardComboboxOption[]>(() => {
+    const championData = this.ddragonService.getAllChampions();
+    if (!championData) {
+      return [];
+    }
+    const options = [];
+
+    options.push({ value: '', label: 'All' });
+
+    options.push(
+      ...championData.map((champion) => {
+        return { value: champion.id, label: champion.name };
+      }),
+    );
+
+    return options;
+  });
+
+  protected readonly sortOptions: ZardComboboxOption[] = [
+    { value: SortCriteria.DATE_DESC, label: 'Date desc (default)' },
+    { value: SortCriteria.DATE_ASC, label: 'Date asc' },
+  ];
+
+  protected selectedSortOption = signal<string | string[] | null>(SortCriteria.DATE_DESC);
+
+  protected readonly isSortedByDate = computed(() => {
+    return (
+      this.selectedSortOption() === SortCriteria.DATE_DESC ||
+      this.selectedSortOption() === SortCriteria.DATE_ASC
+    );
+  });
+
+  protected readonly finalMatchHistory = computed(() => {
+    const championId = this.filterCriteria().championId;
+
+    return this.matchHistory()
+      .filter((match) => {
+        if (championId) {
+          return match.championId === championId;
+        }
+        return true;
+      })
+      .sort((a, b) => {
+        switch (this.selectedSortOption()) {
+          case SortCriteria.DATE_ASC:
+            return a.date.getTime() - b.date.getTime();
+          case SortCriteria.DATE_DESC:
+            return b.date.getTime() - a.date.getTime();
+          default:
+            return 0;
+        }
+      });
+  });
+
+  protected readonly matchHistoryByDate = computed(() => {
+    return this.finalMatchHistory().reduce(
+      (acc, match) => {
+        const dateKey = match.date.toISOString().split('T')[0];
+        if (!acc[dateKey]) {
+          acc[dateKey] = [];
+        }
+        acc[dateKey].push(match);
+        return acc;
+      },
+      {} as Record<string, MatchHistory[]>,
+    );
+  });
+
+  protected mapComboboxInput(input: string | string[] | null): string {
+    return input instanceof Array ? input[0] : input || '';
+  }
+
+  protected readonly chartConfig: ZardChartConfig = {
+    desktop: { label: 'Desktop', color: 'var(--chart-1)' },
+  };
+  protected readonly chartData = [
+    { month: 'January', desktop: 186, mobile: 80 },
+    { month: 'February', desktop: 305, mobile: 200 },
+    { month: 'March', desktop: 237, mobile: 120 },
+    { month: 'April', desktop: 73, mobile: 190 },
+    { month: 'May', desktop: 209, mobile: 130 },
+    { month: 'June', desktop: 214, mobile: 140 },
+  ];
+  protected readonly series: ZardChartSeries[] = [{ dataKey: 'desktop', smooth: true }];
+  protected readonly shortMonth = (value: string) => value.slice(0, 3);
 }

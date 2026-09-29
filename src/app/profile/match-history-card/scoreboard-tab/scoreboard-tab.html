@@ -1,0 +1,21 @@
+<z-card>
+  <z-card-header>
+    <z-card-title zTitle="Post Game" />
+  </z-card-header>
+  <div z-card-content>
+    <ol>
+      <li>
+        @for (player of blueSide(); track player.puuid) {
+          <app-player-card [player]="player"/>
+        }
+      </li>
+    </ol>
+    <ol>
+      <li>
+        @for (player of redSide(); track player.puuid) {
+          <app-player-card [player]="player"/>
+        }
+      </li>
+    </ol>
+  </div>
+</z-card>

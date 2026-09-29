@@ -1,16 +1,30 @@
-<z-card>
-  <div z-card-header>
-    <div class="flex">
-      <img
-        [ngSrc]="championSquare$"
-        alt="Champion"
-        width="36"
-        height="36"
-        class="rounded-full"
-      >
+<div class="flex flex-col gap-2">
+  <z-card (click)="open()">
+    <div z-card-content>
+      <div class="flex justify-between">
+        <div class="flex">
+          <app-champion-icon [championId]="matchHistory().championId" />
+          <div class="flex flex-col">
+            <span>{{ matchHistory().gameMode }}</span>
+            <span>{{ matchHistory().date }}, {{ matchHistory().duration }}</span>
+          </div>
+        </div>
+        <div class="flex">
+          <app-rank-badge [tier]="'Challenger'" [division]="'I'" [leaguePoints]="491"></app-rank-badge>
+        </div>
+      </div>
     </div>
-    <div class="flex">
-
-    </div>
-  </div>
-</z-card>
+  </z-card>
+  <z-collapsible class="flex flex-col gap-2" [zOpen]="shouldOpen()">
+    <z-collapsible-content>
+      <z-tab-group [class]="'w-[42em]'">
+        <z-tab label="Overview">
+          <app-overview-tab/>
+        </z-tab>
+        <z-tab label="Postgame">
+          <app-scoreboard-tab/>
+        </z-tab>
+      </z-tab-group>
+    </z-collapsible-content>
+  </z-collapsible>
+</div>

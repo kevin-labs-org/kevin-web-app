@@ -62,7 +62,7 @@ export interface ItemData {
 }
 
 export interface Data {
-  [key: number]: ItemData;
+  [key: string]: ItemData;
 }
 
 export interface Image {

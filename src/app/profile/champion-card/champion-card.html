@@ -1,0 +1,29 @@
+<z-card>
+  <div z-card-header>
+    <z-card-title zTitle="Champions" />
+    <z-card-action>
+      <z-toggle-group [zMode]="'single'" [zType]="'outline'" [zItems]="items" [zSize]="'sm'"/>
+    </z-card-action>
+  </div>
+  <div z-card-content>
+    <ol class="flex flex-col gap-6">
+      @for (champion of championsByGamesPlayed(); track champion.championId) {
+        <li>
+          <div class="flex items-center gap-2">
+            <app-champion-icon [championId]="champion.championId" />
+            <z-field [class]="'w-full'">
+              <z-field-label for="progress-upload">
+                <span>Annie</span>
+                <span class="ml-auto">
+                  {{ champion.gamesPlayed }} Played ({{ champion.gamesWon }}-{{ champion.gamesLost }})
+                </span>
+              </z-field-label>
+              @let total = totalGamesPlayed() || 1;
+              <z-progress id="progress-upload" [value]="(champion.gamesPlayed / total) * 100" />
+            </z-field>
+          </div>
+        </li>
+      }
+    </ol>
+  </div>
+</z-card>
