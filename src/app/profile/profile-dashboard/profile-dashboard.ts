@@ -10,6 +10,7 @@ import { ProfileStore } from '@/profile/profile-store';
 import { MatchHistoryStore } from '@/profile/match-history-store';
 import { CollapsibleService } from '@/profile/collapsible-service';
 import { RankHistoryStore } from '@/profile/rank-history-store';
+import { DdragonService } from '@/ddragon/ddragon-service';
 
 @Component({
   selector: 'app-profile-dashboard',
@@ -21,14 +22,15 @@ import { RankHistoryStore } from '@/profile/rank-history-store';
   styleUrl: './profile-dashboard.css',
 })
 export class ProfileDashboard {
+  private readonly profileStore = inject(ProfileStore);
+  private readonly matchHistoryStore = inject(MatchHistoryStore);
+  protected readonly ddragonService = inject(DdragonService);
+
   private readonly zardSonnerService = inject(ZardSonnerService);
 
   private readonly refreshInFlight = signal(false);
 
   protected readonly shouldDisableRefresh = computed(() => this.refreshInFlight());
-
-  private readonly profileStore = inject(ProfileStore);
-  private readonly matchHistoryStore = inject(MatchHistoryStore);
 
   protected readonly profile = computed(() => this.profileStore.profile());
 
