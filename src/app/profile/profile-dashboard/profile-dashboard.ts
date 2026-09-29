@@ -8,6 +8,7 @@ import { provideIcons } from '@ng-icons/core';
 import { lucideLoaderCircle } from '@ng-icons/lucide';
 import { ProfileStore } from '@/profile/profile-store';
 import { MatchHistoryStore } from '@/profile/match-history-store';
+import { CollapsibleService } from '@/profile/collapsible-service';
 
 @Component({
   selector: 'app-profile-dashboard',
@@ -15,6 +16,7 @@ import { MatchHistoryStore } from '@/profile/match-history-store';
   templateUrl: './profile-dashboard.html',
   changeDetection: ChangeDetectionStrategy.Eager,
   viewProviders: [provideIcons({ lucideLoaderCircle })],
+  providers: [CollapsibleService],
   styleUrl: './profile-dashboard.css',
 })
 export class ProfileDashboard {

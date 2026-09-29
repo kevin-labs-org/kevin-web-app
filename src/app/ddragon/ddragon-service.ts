@@ -36,6 +36,21 @@ export class DdragonService {
     };
   }
 
+  getAllChampions(): ChampionModel[] | undefined {
+    const ids = this.identiferService.allChampionIds();
+    if (!ids) return undefined;
+    console.log(ids);
+
+    const result: ChampionModel[] = [];
+    for (const id of ids) {
+      const champion = this.getChampion(id);
+      if (!champion) return undefined;
+      result.push(champion);
+    }
+
+    return result;
+  }
+
   getItem(itemId: string): ItemModel | undefined {
     const item = this.identiferService.itemIdToItem(itemId);
 

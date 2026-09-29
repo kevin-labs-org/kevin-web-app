@@ -5,17 +5,36 @@ import { MatchHistoryCard } from '@/profile/match-history-card/match-history-car
 import { MatchHistory } from '@/profile/match-history';
 import { DatePipe, KeyValuePipe } from '@angular/common';
 import { ZardMarkerImports } from '@/shared/components/marker';
-import { CollapsibleService } from '@/profile/collapsible-service';
+import { ZardComboboxImports, ZardComboboxOption } from '@/shared/components/combobox';
+import { DdragonService } from '@/ddragon/ddragon-service';
+import { ZardButtonComponent } from '@/shared/components/button';
+
+interface FilterCriteria {
+  championId: string;
+}
+
+const SortCriteria = {
+  DATE_ASC: 'DATE_ASC',
+  DATE_DESC: 'DATE_DESC',
+};
 
 @Component({
   selector: 'app-profile-overview',
-  imports: [MatchHistoryCard, KeyValuePipe, ZardMarkerImports, DatePipe],
+  imports: [
+    MatchHistoryCard,
+    KeyValuePipe,
+    ZardMarkerImports,
+    DatePipe,
+    ZardComboboxImports,
+    ZardButtonComponent,
+  ],
   templateUrl: './profile-overview.html',
   styleUrl: './profile-overview.css',
-  providers: [CollapsibleService],
 })
 export class ProfileOverview {
   private readonly profileService = inject(ProfileService);
+  private readonly ddragonService = inject(DdragonService);
+  readonly matchHistoryStore = inject(MatchHistoryStore);
 
   readonly puuid = signal('');
 
@@ -27,8 +46,6 @@ export class ProfileOverview {
     // The resource calls this function every time the `params` value changes.
     loader: ({ params }) => this.profileService.getRankHistory(params.puuid),
   });
-
-  readonly matchHistoryStore = inject(MatchHistoryStore);
 
   constructor() {
     this.matchHistoryStore.puuid.set('ads');
@@ -42,8 +59,64 @@ export class ProfileOverview {
     return this.matchHistoryStore.matchHistoryResource.isLoading();
   });
 
+  protected readonly filterCriteria = signal<FilterCriteria>({ championId: '' });
+
+  protected readonly championOptions = computed<ZardComboboxOption[]>(() => {
+    const championData = this.ddragonService.getAllChampions();
+    if (!championData) {
+      return [];
+    }
+    const options = [];
+
+    options.push({ value: '', label: 'All' });
+
+    options.push(
+      ...championData.map((champion) => {
+        return { value: champion.id, label: champion.name };
+      }),
+    );
+
+    return options;
+  });
+
+  protected readonly sortOptions: ZardComboboxOption[] = [
+    { value: SortCriteria.DATE_DESC, label: 'Date desc (default)' },
+    { value: SortCriteria.DATE_ASC, label: 'Date asc' },
+  ];
+
+  protected readonly selectedSortOption = signal<string | string[] | null>(SortCriteria.DATE_DESC);
+
+  protected readonly isSortedByDate = computed(() => {
+    return (
+      this.selectedSortOption() === SortCriteria.DATE_DESC ||
+      this.selectedSortOption() === SortCriteria.DATE_ASC
+    );
+  });
+
+  protected readonly finalMatchHistory = computed(() => {
+    const championId = this.filterCriteria().championId;
+
+    return this.matchHistory()
+      .filter((match) => {
+        if (championId) {
+          return match.championId === championId;
+        }
+        return true;
+      })
+      .sort((a, b) => {
+        switch (this.selectedSortOption()) {
+          case SortCriteria.DATE_ASC:
+            return a.date.getTime() - b.date.getTime();
+          case SortCriteria.DATE_DESC:
+            return b.date.getTime() - a.date.getTime();
+          default:
+            return 0;
+        }
+      });
+  });
+
   protected readonly matchHistoryByDate = computed(() => {
-    return this.matchHistory().reduce(
+    return this.finalMatchHistory().reduce(
       (acc, match) => {
         const dateKey = match.date.toISOString().split('T')[0];
         if (!acc[dateKey]) {
@@ -55,4 +128,8 @@ export class ProfileOverview {
       {} as Record<string, MatchHistory[]>,
     );
   });
+
+  protected mapComboboxInput(input: string | string[] | null): string {
+    return input instanceof Array ? input[0] : input || '';
+  }
 }

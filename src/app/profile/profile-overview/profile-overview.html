@@ -1,7 +1,55 @@
-@if (isLoading()) {
-  <p>Loading</p>
-}
+<!--<z-combobox zWidth="full" class="w-fit" [(zValue)]="value">-->
+<!--  <button type="button" z-button z-combobox-trigger zType="outline" class="w-64 justify-between font-normal">-->
+<!--    <z-combobox-value placeholder="Select country" />-->
+<!--  </button>-->
+<!--  <z-combobox-content>-->
+<!--    <z-combobox-input [zShowTrigger]="false" placeholder="Search" />-->
+<!--    <z-combobox-empty>No items found.</z-combobox-empty>-->
+<!--    <z-combobox-list>-->
+<!--      @for (country of countries; track country.code) {-->
+<!--        <z-combobox-item [zValue]="country.value" [zLabel]="country.label">{{ country.label }}</z-combobox-item>-->
+<!--      }-->
+<!--    </z-combobox-list>-->
+<!--  </z-combobox-content>-->
+<!--</z-combobox>-->
+
+<div class="flex justify-between items-center">
+  <div class="flex items-center">
+    <z-combobox [zValue]="filterCriteria().championId" (zValueChange)="filterCriteria.set({ championId: mapComboboxInput($event) })" [class]="'w-fit'">
+      <button type="button" z-button z-combobox-trigger [zType]="'outline'" [class]="'w-48 justify-between font-normal'">
+        <z-combobox-value placeholder="Select champion" />
+      </button>
+      <z-combobox-content>
+        <z-combobox-input [zShowTrigger]="false" placeholder="Search champion..."/>
+        <z-combobox-empty>No champion found.</z-combobox-empty>
+        <z-combobox-list>
+          @for (champion of championOptions(); track champion.value) {
+            <z-combobox-item [zValue]="champion.value">{{ champion.label }}</z-combobox-item>
+          }
+        </z-combobox-list>
+      </z-combobox-content>
+    </z-combobox>
+  </div>
+  <div class="flex items-center">
+    <z-combobox [(zValue)]="selectedSortOption" [class]="'w-fit'">
+      <button type="button" z-button z-combobox-trigger [zType]="'outline'" [class]="'w-48 justify-between font-normal'">
+        <z-combobox-value/>
+      </button>
+      <z-combobox-content>
+        <z-combobox-list>
+          @for (option of sortOptions; track option.value) {
+            <z-combobox-item [zValue]="option.value" [zDisabled]="option.value === selectedSortOption()">{{ option.label }}</z-combobox-item>
+          }
+        </z-combobox-list>
+
+      </z-combobox-content>
+
+    </z-combobox>
+  </div>
+</div>
+
 @if (matchHistoryStore.matchHistoryResource.hasValue()) {
+  @if (isSortedByDate()) {
   <div class="flex flex-col gap-6">
     @for (day of matchHistoryByDate() | keyvalue; track day.key) {
       <div class="flex flex-col gap-4">
@@ -13,9 +61,22 @@
             <li>
               <app-match-history-card [matchHistory]="match" />
             </li>
+          } @empty {
+            <span>No matches</span>
           }
         </ol>
       </div>
     }
   </div>
+  } @else {
+    <ol>
+      @for (match of finalMatchHistory(); track match.id) {
+        <li>
+          <app-match-history-card [matchHistory]="match" />
+        </li>
+      } @empty {
+        <span>No matches</span>
+      }
+    </ol>
+  }
 }

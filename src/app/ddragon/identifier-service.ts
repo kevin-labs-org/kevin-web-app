@@ -29,6 +29,15 @@ export class IdentifierService {
     return result;
   });
 
+  readonly allChampionIds = computed(() => {
+    const championJson = this.jsonDataService.champion.value();
+    if (!championJson) {
+      return undefined;
+    }
+
+    return Object.values(championJson.data || {}).map((champion) => champion.key);
+  });
+
   championIdToChampion(championId: string): ChampionS | undefined {
     return this.championIdToChampionMap().get(championId);
   }
