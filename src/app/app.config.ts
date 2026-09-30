@@ -8,6 +8,8 @@ import { provideClientHydration } from '@angular/platform-browser';
 import { provideZardCharts } from '@/shared/components/chart';
 import { provideIcons } from '@ng-icons/core';
 import { flagEu, flagKr, flagUs } from '@ng-icons/flag-icons';
+import { provideTranslateService } from '@ngx-translate/core';
+import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -21,6 +23,14 @@ export const appConfig: ApplicationConfig = {
       flagUs,
       flagEu,
       flagKr,
+    }),
+    provideTranslateService({
+      loader: provideTranslateHttpLoader({
+        prefix: '/i18n/',
+        suffix: '.json',
+      }),
+      fallbackLang: 'en',
+      lang: 'en',
     }),
   ],
 };
