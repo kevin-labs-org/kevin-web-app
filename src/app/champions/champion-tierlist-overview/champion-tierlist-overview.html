@@ -1,0 +1,41 @@
+<z-dropdown-menu-content #sortMenu="zDropdownMenuContent" class="w-56">
+  <z-dropdown-menu-radio-group [(zValue)]="sort">
+    @for (option of sortOptions; track option.value) {
+      <z-dropdown-menu-radio-item [zValue]="option.value">
+        {{ option.label }}
+      </z-dropdown-menu-radio-item>
+    }
+  </z-dropdown-menu-radio-group>
+</z-dropdown-menu-content>
+
+<div class="flex flex-col gap-4 max-w-6xl mx-auto">
+  <div class="flex justify-between items-center">
+    <h1 class="text-3xl font-medium tracking-tight">Champions</h1>
+    <div class="flex items-center gap-4">
+<!--      <z-combobox zWidth="full" class="w-fit" [zValue]="filter().region" (zValueChange)="setFilterRegion($event)">-->
+<!--        <button type="button" z-button z-combobox-trigger zType="outline" class="w-64 justify-between font-normal">-->
+<!--          <z-combobox-value placeholder="Select country" />-->
+<!--        </button>-->
+<!--        <z-combobox-content>-->
+<!--          <z-combobox-list>-->
+<!--            @for (region of RegionList; track region) {-->
+<!--              <z-combobox-item [zValue]="region" [zLabel]="region | region">{{ region | region }}</z-combobox-item>-->
+<!--            }-->
+<!--          </z-combobox-list>-->
+<!--        </z-combobox-content>-->
+<!--      </z-combobox>-->
+      <button type="button" z-button zType="outline" z-dropdown [zDropdownMenu]="sortMenu" class="w-28">
+        {{ sort() }}
+      </button>
+      <z-toggle-group [zMode]="'single'" [zType]="'outline'" [zItems]="roles" [zValue]="filter().role" (valueChange)="setFilterRole($event)" />
+    </div>
+  </div>
+
+  <ul class="grid grid-cols-[repeat(auto-fit,minmax(144px,1fr))] gap-x-6 gap-y-12">
+    @for (champion of champions(); track champion.championId) {
+      <li>
+        <app-champion-card [champion]="champion"/>
+      </li>
+    }
+  </ul>
+</div>

@@ -1,7 +1,7 @@
 <z-dropdown-menu-content #menu="zDropdownMenuContent" class="w-48">
   @for (region of regions; track region) {
     <z-dropdown-menu-item [disabled]="region === currentRegion()">
-      {{ regionLabel[region] }}
+      {{ region | region }}
     </z-dropdown-menu-item>
   }
 </z-dropdown-menu-content>
