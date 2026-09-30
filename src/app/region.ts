@@ -5,3 +5,6 @@ export const Region = {
 } as const
 
 export type Region = typeof Region[keyof typeof Region]
+
+export const RegionList = Object.values(Region) as Region[];
+

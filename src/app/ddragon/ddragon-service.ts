@@ -17,6 +17,24 @@ export class DdragonService {
     return `${this.ddragonMetaDataService.cdnUrl}/${path}`;
   }
 
+  public getChampionTileImageUrl(championId: string): string | undefined {
+    const path = this.imagePathService.getChampionTile(championId);
+    if (!path) return undefined;
+    return `${this.ddragonMetaDataService.cdnUrl}/${path}`;
+  }
+
+  public getChampionCenteredImageUrl(championId: string): string | undefined {
+    const path = this.imagePathService.getChampionCentered(championId);
+    if (!path) return undefined;
+    return `${this.ddragonMetaDataService.cdnUrl}/${path}`;
+  }
+
+  public getChampionLoadingImageUrl(championId: string): string | undefined {
+    const path = this.imagePathService.getChampionLoading(championId);
+    if (!path) return undefined;
+    return `${this.ddragonMetaDataService.cdnUrl}/${path}`;
+  }
+
   public getRuneImageUrl(runeId: number): string {
     const path = this.imagePathService.getRune(runeId);
     return `${this.ddragonMetaDataService.cdnUrl}/${path}`;
@@ -33,6 +51,9 @@ export class DdragonService {
       id: championId,
       name: champion.name,
       iconUrl: `${this.ddragonMetaDataService.cdnUrl}/${this.imagePathService.getChampionSquare(championId)}`,
+      centeredImageUrl: `${this.ddragonMetaDataService.cdnUrl}/${this.imagePathService.getChampionCentered(championId)}`,
+      loadingImageUrl: `${this.ddragonMetaDataService.cdnUrl}/${this.imagePathService.getChampionLoading(championId)}`,
+      tilesImageUrl: `${this.ddragonMetaDataService.cdnUrl}/${this.imagePathService.getChampionTile(championId)}`,
     };
   }
 

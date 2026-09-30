@@ -41,8 +41,10 @@ describe('DdragonService', () => {
         {
           provide: ImagePathService,
           useValue: {
-            getChampionSquare: (id: string) => (id === '119' ? 'cdn/16.16.1/img/champion/Draven.png' : undefined),
-            getRune: (id: number) => (id === 8137 ? 'cdn/img/perk-images/SixthSense.png' : 'cdn/img/unknown.png'),
+            getChampionSquare: (id: string) =>
+              id === '119' ? 'cdn/16.16.1/img/champions/Draven.png' : undefined,
+            getRune: (id: number) =>
+              id === 8137 ? 'cdn/img/perk-images/SixthSense.png' : 'cdn/img/unknown.png',
             getItem: (id: string) => (id === '1000' ? 'cdn/16.16.1/img/item/1000.png' : undefined),
             getProfileIcon: (id: number) => `cdn/16.16.1/img/profileicon/${id}.png`,
           },
@@ -57,13 +59,13 @@ describe('DdragonService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should return the full URL for a champion square', () => {
+  it('should return the full URL for a champions square', () => {
     expect(service.getChampionSquare('119')).toBe(
       'https://cdn.example.test/cdn/16.16.1/img/champion/Draven.png',
     );
   });
 
-  it('should return undefined when a champion is not found', () => {
+  it('should return undefined when a champions is not found', () => {
     expect(service.getChampionSquare('999')).toBeUndefined();
   });
 
@@ -73,7 +75,7 @@ describe('DdragonService', () => {
     );
   });
 
-  it('should map a champion to a champion model', () => {
+  it('should map a champions to a champions model', () => {
     expect(service.getChampion('119')).toEqual({
       id: '119',
       name: 'Draven',
@@ -81,7 +83,7 @@ describe('DdragonService', () => {
     });
   });
 
-  it('should return undefined when mapping an unknown champion', () => {
+  it('should return undefined when mapping an unknown champions', () => {
     expect(service.getChampion('999')).toBeUndefined();
   });
 

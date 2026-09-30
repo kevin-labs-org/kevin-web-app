@@ -18,6 +18,30 @@ export class ImagePathService {
     return `cdn/${this.ddragonMetaDataService.version}/img/${image.group}/${image.full}`;
   }
 
+  getChampionTile(championId: string): string | undefined {
+    const champion = this.identifierService.championIdToChampion(championId);
+    if (!champion) return undefined;
+
+    const image = champion.image;
+    return `cdn/img/${image.group}/tiles/${champion.id}_0.jpg`;
+  }
+
+  getChampionCentered(championId: string): string | undefined {
+    const champion = this.identifierService.championIdToChampion(championId);
+    if (!champion) return undefined;
+
+    const image = champion.image;
+    return `cdn/img/${image.group}/centered/${champion.id}_0.jpg`;
+  }
+
+  getChampionLoading(championId: string): string | undefined {
+    const champion = this.identifierService.championIdToChampion(championId);
+    if (!champion) return undefined;
+
+    const image = champion.image;
+    return `cdn/img/${image.group}/loading/${champion.id}_0.jpg`;
+  }
+
   getProfileIcon(profileIconId: number): string {
     return `cdn/${this.ddragonMetaDataService.version}/img/profileicon/${profileIconId}.png`;
   }

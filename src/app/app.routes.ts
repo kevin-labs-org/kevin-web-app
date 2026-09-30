@@ -10,6 +10,7 @@ import { Profiles } from '@/profiles/profiles/profiles';
 import { Ladder } from '@/ladder/ladder/ladder';
 import { LadderLeaderboard } from '@/ladder/ladder-leaderboard/ladder-leaderboard';
 import { Region } from '@/region';
+import { ChampionTierlistOverview } from '@/champions/champion-tierlist-overview/champion-tierlist-overview';
 
 export const routes: Routes = [
   {
@@ -40,5 +41,10 @@ export const routes: Routes = [
       { path: '', redirectTo: Region.NA, pathMatch: 'full' },
       { path: ':region', component: LadderLeaderboard },
     ],
+  },
+  {
+    path: 'champion',
+    component: ChampionTierlistOverview,
+    // children: [{ path: ':championId' }],
   },
 ];

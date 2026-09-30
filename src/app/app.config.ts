@@ -6,6 +6,8 @@ import { routes } from './app.routes';
 import { provideZard } from '@/shared/core/provider/providezard';
 import { provideClientHydration } from '@angular/platform-browser';
 import { provideZardCharts } from '@/shared/components/chart';
+import { provideIcons } from '@ng-icons/core';
+import { flagEu, flagKr, flagUs } from '@ng-icons/flag-icons';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -15,5 +17,10 @@ export const appConfig: ApplicationConfig = {
     provideZard(),
     provideClientHydration(),
     provideZardCharts(),
+    provideIcons({
+      flagUs,
+      flagEu,
+      flagKr,
+    }),
   ],
 };
