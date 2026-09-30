@@ -51,6 +51,9 @@ export class DdragonService {
       id: championId,
       name: champion.name,
       iconUrl: `${this.ddragonMetaDataService.cdnUrl}/${this.imagePathService.getChampionSquare(championId)}`,
+      centeredImageUrl: `${this.ddragonMetaDataService.cdnUrl}/${this.imagePathService.getChampionCentered(championId)}`,
+      loadingImageUrl: `${this.ddragonMetaDataService.cdnUrl}/${this.imagePathService.getChampionLoading(championId)}`,
+      tilesImageUrl: `${this.ddragonMetaDataService.cdnUrl}/${this.imagePathService.getChampionTile(championId)}`,
     };
   }
 

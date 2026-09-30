@@ -1,19 +1,19 @@
 <div class="flex flex-col gap-2">
-  <div class="relative overflow-hidden rounded-2xl min-w-36 max-w-40">
+  <div class="relative overflow-hidden rounded-2xl">
     @defer (when championDataReady()) {
       <img
-        [ngSrc]="championData().iconUrl"
+        [ngSrc]="championData().loadingImageUrl"
         alt="Event cover"
         class="relative z-20 w-full scale-105 hover:scale-125 animate-in"
-        width="380"
-        height="380"
+        width="308"
+        height="560"
       />
     }
     <div class="absolute left-0 bottom-0 z-100 p-1">
       <div class="rounded-lg border border-white/30 bg-white/20 px-2 py-1 shadow-lg backdrop-blur-xs flex items-center">
         <span class="text-white font-semibold text-xs">
           @defer (when championDataReady()) {
-                {{ championData().name }}
+            {{ championData().name }}
           }
         </span>
       </div>
@@ -23,23 +23,23 @@
     <z-field [class]="'w-full'">
       <z-field-label for="win-rate-bar">
         <span>Win Rate</span>
-        <span class="ml-auto">{{ champion().gamesWon / champion().gamesPlayed * 100 | number:'1.2-2' }}%</span>
+        <span class="ml-auto">{{ champion().winRate * 100 | number:'1.1-1' }}%</span>
       </z-field-label>
-      <z-progress id="win-rate-bar" [value]="winRateBarPercent()" />
+      <z-progress id="win-rate-bar" [value]="winRateBar() * 100" />
     </z-field>
     <z-field [class]="'w-full'">
       <z-field-label for="pick-rate-bar">
-        <span>Games Played</span>
-        <span class="ml-auto">124</span>
+        <span>Play Rate</span>
+        <span class="ml-auto">{{ champion().playRate * 100 | number:'1.1-1' }}%</span>
       </z-field-label>
-      <z-progress id="pick-rate-bar" [value]="pickRateBarPercent()" />
+      <z-progress id="pick-rate-bar" [value]="pickRateBar() * 100" />
     </z-field>
     <z-field [class]="'w-full'">
       <z-field-label for="ban-rate-bar">
-        <span>Games Played</span>
-        <span class="ml-auto">124</span>
+        <span>Ban Rate</span>
+        <span class="ml-auto">{{ champion().banRate * 100 | number:'1.1-1' }}%</span>
       </z-field-label>
-      <z-progress id="ban-rate-bar" [value]="banRateBarPercent()" />
+      <z-progress id="ban-rate-bar" [value]="banRateBar() * 100" />
     </z-field>
   </div>
 </div>
