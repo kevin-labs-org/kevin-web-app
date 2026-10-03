@@ -23,24 +23,6 @@
   </z-command>
 </ng-template>
 
-<z-dropdown-menu-content #menu="zDropdownMenuContent">
-  <z-dropdown-menu-item (click)="darkMode.toggleTheme(EDarkModes.SYSTEM)"
-                        [disabled]="darkMode.currentTheme() === EDarkModes.SYSTEM">
-    <ng-icon name="lucideEclipse" class="mr-2 size-4" />
-    System
-  </z-dropdown-menu-item>
-  <z-dropdown-menu-item (click)="darkMode.toggleTheme(EDarkModes.LIGHT)"
-                        [disabled]="darkMode.currentTheme() === EDarkModes.LIGHT">
-    <ng-icon name="lucideSun" class="mr-2 size-4" />
-    Light
-  </z-dropdown-menu-item>
-  <z-dropdown-menu-item (click)="darkMode.toggleTheme(EDarkModes.DARK)"
-                        [disabled]="darkMode.currentTheme() === EDarkModes.DARK">
-    <ng-icon name="lucideMoon" class="mr-2 size-4" />
-    Dark
-  </z-dropdown-menu-item>
-</z-dropdown-menu-content>
-
 <div class="sticky top-0 z-100 bg-background">
   <div class="flex items-center justify-between p-6">
     <div class="flex items-center gap-4">
@@ -53,7 +35,7 @@
         <ng-icon name="lucideSearch" />
         Search
       </button>
-      <button type="button" z-button zType="outline" z-dropdown [zDropdownMenu]="menu">Open menu</button>
+      <app-settings-button/>
     </div>
   </div>
 </div>

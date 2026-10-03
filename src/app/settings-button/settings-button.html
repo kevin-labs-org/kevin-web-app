@@ -1,0 +1,29 @@
+<button type="button" z-button zType="outline" z-dropdown [zDropdownMenu]="menu" [zSize]="'icon'">
+  <ng-icon name="lucideSettings" />
+</button>
+
+<z-dropdown-menu-content #menu="zDropdownMenuContent" class="w-48">
+  <z-dropdown-menu-sub-trigger [zSubMenu]="darkModeMenu">
+    Theme
+  </z-dropdown-menu-sub-trigger>
+  <z-dropdown-menu-sub-trigger [zSubMenu]="languageMenu">
+    Language
+  </z-dropdown-menu-sub-trigger>
+</z-dropdown-menu-content>
+
+<z-dropdown-menu-sub-content #darkModeMenu="zDropdownMenuSubContent">
+  @for (option of darkModeOptions; track option.value) {
+    <z-dropdown-menu-item (click)="darkMode.toggleTheme(option.value)" [disabled]="darkMode.currentTheme() === option.value">
+      <ng-icon [name]="option.icon" class="mr-2 size-4" />
+      {{ option.label() }}
+    </z-dropdown-menu-item>
+  }
+</z-dropdown-menu-sub-content>
+
+<z-dropdown-menu-sub-content #languageMenu="zDropdownMenuSubContent">
+  @for (option of languageOptions; track option.value) {
+    <z-dropdown-menu-item (click)="switchLanguage(option.value)">
+      {{ option.label() }}
+    </z-dropdown-menu-item>
+  }
+</z-dropdown-menu-sub-content>

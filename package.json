@@ -7,7 +7,9 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "serve:ssr:kevin-angular-frontend-generated": "node dist/kevin-angular-frontend-generated/server/server.mjs"
+    "serve:ssr:kevin-angular-frontend-generated": "node dist/kevin-angular-frontend-generated/server/server.mjs",
+    "i18n:init": "ngx-translate-extract --input ./src --output ./public/i18n/template.json --key-as-default-value --replace --format json",
+    "i18n:extract": "ngx-translate-extract --input ./src --output ./public/i18n/{en,fr}.json --clean --format json"
   },
   "private": true,
   "packageManager": "npm@11.6.2",
@@ -29,6 +31,9 @@
     "@ng-icons/core": "^33.4.0",
     "@ng-icons/flag-icons": "^33.4.0",
     "@ng-icons/lucide": "^33.4.0",
+    "@ngx-translate/core": "^18.0.0",
+    "@ngx-translate/http-loader": "^18.0.0",
+    "@vendure/ngx-translate-extract": "^10.2.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "echarts": "^6.1.0",

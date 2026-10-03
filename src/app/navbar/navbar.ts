@@ -18,19 +18,12 @@ import {
   ZardCommandOptionGroupComponent,
 } from '@/shared/components/command';
 import { NgIcon, provideIcons } from '@ng-icons/core';
-import {
-  lucideArrowUp,
-  lucideEclipse,
-  lucideMoon,
-  lucideSearch,
-  lucideSun,
-} from '@ng-icons/lucide';
+import { lucideEclipse, lucideMoon, lucideSearch, lucideSun } from '@ng-icons/lucide';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { Observable, of } from 'rxjs';
 import { delay } from 'rxjs/operators';
 import { ZardSkeletonComponent } from '@/shared/components/skeleton';
-import { ZardDarkMode, EDarkModes } from '@/shared/services';
-import { ZardDropdownImports } from '@/shared/components/dropdown';
+import { SettingsButton } from '@/settings-button/settings-button';
 
 @Component({
   selector: 'app-navbar',
@@ -44,7 +37,7 @@ import { ZardDropdownImports } from '@/shared/components/dropdown';
     ZardCommandOptionGroupComponent,
     NgIcon,
     ZardSkeletonComponent,
-    ZardDropdownImports,
+    SettingsButton,
   ],
   templateUrl: './navbar.html',
   changeDetection: ChangeDetectionStrategy.Eager,
@@ -52,9 +45,6 @@ import { ZardDropdownImports } from '@/shared/components/dropdown';
   viewProviders: [provideIcons({ lucideSearch, lucideSun, lucideMoon, lucideEclipse })],
 })
 export class Navbar {
-  protected readonly EDarkModes = EDarkModes;
-  protected readonly darkMode = inject(ZardDarkMode);
-
   private readonly dialogService = inject(ZardDialogService);
   private readonly router = inject(Router);
 
