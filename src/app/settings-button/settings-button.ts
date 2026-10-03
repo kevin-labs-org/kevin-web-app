@@ -6,6 +6,7 @@ import { ZardButtonComponent } from '@/shared/components/button';
 import { lucideEclipse, lucideMoon, lucideSettings, lucideSun } from '@ng-icons/lucide';
 import { LanguageSwitch } from '@/language-switch';
 import { Language } from '@/language';
+import { _, translate } from '@ngx-translate/core';
 
 @Component({
   imports: [ZardDropdownImports, NgIcon, ZardButtonComponent],
@@ -23,13 +24,25 @@ export class SettingsButton {
   }
 
   protected readonly darkModeOptions = [
-    { value: EDarkModes.SYSTEM, label: 'System', icon: 'lucideEclipse' },
-    { value: EDarkModes.LIGHT, label: 'Light', icon: 'lucideSun' },
-    { value: EDarkModes.DARK, label: 'Dark', icon: 'lucideMoon' },
+    {
+      value: EDarkModes.SYSTEM,
+      label: translate(_('darkMode.system')),
+      icon: 'lucideEclipse',
+    },
+    {
+      value: EDarkModes.LIGHT,
+      label: translate(_('darkMode.light')),
+      icon: 'lucideSun',
+    },
+    {
+      value: EDarkModes.DARK,
+      label: translate(_('darkMode.dark')),
+      icon: 'lucideMoon',
+    },
   ];
 
   protected readonly languageOptions = [
-    { value: Language.ENGLISH, label: 'English' },
-    { value: Language.FRENCH, label: 'French' },
+    { value: Language.ENGLISH, label: translate(_('language.english')) },
+    { value: Language.FRENCH, label: translate(_('language.french')) },
   ];
 }
