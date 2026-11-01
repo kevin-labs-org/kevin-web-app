@@ -1,0 +1,11 @@
+<z-card>
+  <div z-card-content>
+    <div class="flex justify-between gap-2">
+      <div class="flex gap-1">
+        <z-avatar [zSrc]="profileIconUrl()" />
+        <app-summoner-handle [name]="profile().name" [tag]="profile().tag" />
+      </div>
+      <app-rank-badge [tier]="tier()" [division]="division()" [leaguePoints]="profile().leaguePoints" />
+    </div>
+  </div>
+</z-card>

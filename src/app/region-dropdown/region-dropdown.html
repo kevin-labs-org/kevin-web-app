@@ -1,0 +1,13 @@
+<z-dropdown-menu-content #menu="zDropdownMenuContent" class="w-48">
+  @for (option of regionOptions; track option) {
+    <z-dropdown-menu-item (click)="selectRegion(option.value)" [disabled]="option.value === selectedRegion()">
+      <ng-icon [name]="option.icon" class="mr-2 size-4"/>
+      {{ option.label() }}
+    </z-dropdown-menu-item>
+  }
+</z-dropdown-menu-content>
+
+<button type="button" z-button zType="outline" z-dropdown [zDropdownMenu]="menu" [class]="'w-24'">
+  <ng-icon [name]="selectedRegionIcon()" />
+  {{ selectedRegion() }}
+</button>

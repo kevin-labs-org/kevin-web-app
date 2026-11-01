@@ -9,4 +9,6 @@ import { Component, input } from '@angular/core';
 export class SummonerHandle {
   readonly name = input.required<string>();
   readonly tag = input.required<string>();
+
+  readonly size = input<'sm' | 'default' | 'lg'>('default');
 }

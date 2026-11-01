@@ -1,1 +1,35 @@
-<p>{{ 'landing-screen.title' | translate }}</p>
+<app-page-header title="Ladder">
+  <app-region-dropdown (regionSelected)="onRegionSelected($event)" />
+</app-page-header>
+
+<app-page-body>
+  <div app-page-body-main>
+    @if (ladderResource.hasValue()) {
+      <ol class="flex flex-col gap-4">
+        @for (profile of ladderResource.value().entries; track profile.puuid) {
+          <li>
+            <app-ladder-card [profile]="profile" />
+          </li>
+        }
+      </ol>
+    }
+  </div>
+  <div app-page-sidebar>
+    <h3>{{ 'landing.savedProfiles' | translate}}</h3>
+    <ol>
+      @for (profile of getSavedProfiles(); track profile.puuid) {
+        <li>
+          <app-profile-card [profile]="profile"/>
+        </li>
+      }
+    </ol>
+    <h3>{{ 'landing.recentlyViewedProfiles' | translate}}</h3>
+    <ol>
+      @for (profile of getRecentlyViewedProfiles(); track profile.puuid) {
+        <li>
+          <app-profile-card [profile]="profile"/>
+        </li>
+      }
+    </ol>
+  </div>
+</app-page-body>

@@ -3,9 +3,11 @@ import { Observable, of, timeout } from 'rxjs';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { Profile } from '@/profiles/profile';
 import { ProfileCard } from '@/profiles/profile-card/profile-card';
+import { PageHeader } from '@/page-header/page-header';
+import { PageBody } from '@/page-body/page-body';
 
 @Component({
-  imports: [ProfileCard],
+  imports: [ProfileCard, PageHeader, PageBody],
   selector: 'app-profiles',
   styleUrl: './profiles.css',
   templateUrl: './profiles.html',
